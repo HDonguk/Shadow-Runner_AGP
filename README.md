@@ -88,6 +88,6 @@ Android Game Programming Project
 ### 요약
 
 **Shadow Runner**는 어둠 속을 질주하며 장애물을 피하고 콤보를 이어가는 액션 플랫포머 게임입니다.  
-이번 학기에는 Android의 터치/스와이프 이벤트 처리, ViewBinding, Custom View 등 다양한 기능을 활용하여 게임을 개발하며, 위의 8주간의 개발 일정을 따라 체계적으로 진행합니다. 모든 결과물과 발표 자료는 Git Repository와 README.md에 포함되어야 합니다.
+이번 학기에는 Android의 터치/스와이프 이벤트 처리, ViewBinding, Custom View 등 다양한 기능을 활용하여 게임을 개발하며, 위의 8주간의 개발 일정을 따라 체계적으로 진행합니다. 
 
-*위 내용은 과제 제출 시 반드시 README.md 파일 내에 포함되어야 하며, PPT 자료로 제출하지 않도록 주의해 주세요.*
+
