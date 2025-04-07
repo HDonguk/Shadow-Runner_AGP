@@ -2,7 +2,7 @@
 Android Game Programming Project
 
 - **프로젝트 제목:** [Shadow Runner] 
-- **발표 영상 자료:** [Shadow Runner 발표 영상 (1분 30초)](https://youtu.be/yourvideoid)  
+- **발표 영상 자료:** [Shadow Runner 발표 영상 (1분 30초)](https://youtu.be/L4PnCH_Uf5M)  
 - **프로젝트 Git Repository:** [Shadow Runner Git Repository](https://github.com/HDonguk/Shadow-Runner_AGP)  
 - **README.md 파일 바로가기:** [README.md](https://github.com/HDonguk/Shadow-Runner_AGP/blob/main/README.md)
 
