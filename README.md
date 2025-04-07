@@ -55,8 +55,8 @@ Android Game Programming Project
 5. **게임 종료/재시작:**  
    - 게임 오버 시 재도전하거나 메인 메뉴로 복귀 선택 제공
 
-> **실행 흐름 예시 스케치**  
-> ![Game Flow Sketch](./images/game_flow_sketch_shadow_runner.png)  
+> **실행 흐름 예시 스케치**
+> ![Game Flow Sketch](https://github.com/user-attachments/assets/7a2410cb-72b6-4bba-bf74-dadc239d8a00) 
 > *(실제 게임 스크린샷이나 스케치 이미지를 활용하여, 게임 진행 흐름을 직관적으로 이해할 수 있도록 구성)*
 
 ---
