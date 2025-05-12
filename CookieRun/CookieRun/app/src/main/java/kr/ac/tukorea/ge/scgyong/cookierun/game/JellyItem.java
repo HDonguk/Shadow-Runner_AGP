@@ -7,12 +7,14 @@ import kr.ac.tukorea.ge.scgyong.cookierun.R;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.res.BitmapPool;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.scene.Scene;
 
-public class JellyItem extends MapObject {
-    public static final int JELLY_COUNT = 60;
-    private static final int ITEMS_IN_A_ROW = 30;
+public class ShadowItem extends MapObject {
+    public enum Type { HEALTH, INVINCIBLE, SHURIKEN }
+
     private static final int SIZE = 66;
     private static final int BORDER = 2;
-    public int index;
+    private static final int ITEM_WIDTH = 100;
+    private static final int ITEM_HEIGHT = 100;
+
     private static final int[] SOUND_IDS = {
             R.raw.jelly,
             R.raw.jelly_alphabet,
@@ -21,33 +23,47 @@ public class JellyItem extends MapObject {
             R.raw.jelly_coin,
             R.raw.jelly_big_coin,
     };
-    public JellyItem() {
+
+    private Type type;
+    private final Rect srcRect = new Rect();
+    private final RectF collisionRect = new RectF();
+
+    public ShadowItem() {
         super(MainScene.Layer.item);
-        bitmap = BitmapPool.get(R.mipmap.jelly);
-        srcRect = new Rect();
-        width = height = 100;
-        collisionRect = new RectF();
+        bitmap = BitmapPool.get(R.mipmap.jelly); // 기존 jelly 시트 사용
+        width = ITEM_WIDTH;
+        height = ITEM_HEIGHT;
     }
-    public static JellyItem get(int index, float left, float top) {
-        return Scene.top().getRecyclable(JellyItem.class).init(index, left, top);
-        //return new JellyItem().init(index, left, top);
+
+    public static ShadowItem get(Type type, float left, float top) {
+        return Scene.top().getRecyclable(ShadowItem.class).init(type, left, top);
     }
-    public static JellyItem get(char mapChar, float left, float top) {
-        if (mapChar == '@') {
-            return get(26, left, top); // 26=계란모양
-        }
-        if (mapChar < '1' || mapChar >= '9') return null;
-        return get(mapChar - '1', left, top);
-    }
-    public JellyItem init(int index, float left, float top) {
-        this.index = index;
+
+    public ShadowItem init(Type type, float left, float top) {
+        this.type = type;
+
+        int index = getSpriteIndex(type);
         setSrcRect(index);
+
         dstRect.set(left, top, left + width, top + height);
+        updateCollisionRect(0.15f);
         return this;
     }
+
+    private int getSpriteIndex(Type type) {
+        switch (type) {
+            case HEALTH: return 1;
+            case INVINCIBLE: return 2;
+            case SHURIKEN: return 3;
+        }
+        return 0;
+    }
+
     private void setSrcRect(int index) {
-        int x = index % ITEMS_IN_A_ROW;
-        int y = index / ITEMS_IN_A_ROW;
+        int itemsPerRow = 30;
+        int x = index % itemsPerRow;
+        int y = index / itemsPerRow;
+
         int left = x * (SIZE + BORDER) + BORDER;
         int top = y * (SIZE + BORDER) + BORDER;
         srcRect.set(left, top, left + SIZE, top + SIZE);
@@ -60,11 +76,34 @@ public class JellyItem extends MapObject {
     }
 
     @Override
+    public Rect getSrcRect() {
+        return srcRect;
+    }
+
+    @Override
     public RectF getCollisionRect() {
         return collisionRect;
     }
 
+    public void applyEffect(Player player) {
+        switch (type) {
+            case HEALTH:
+                player.increaseHealth();
+                break;
+            case INVINCIBLE:
+                player.setInvincible(3.0f);
+                break;
+            case SHURIKEN:
+                player.fireShurikens();
+                break;
+        }
+    }
+
     public int getSoundResId() {
-        return SOUND_IDS[index % SOUND_IDS.length];
+        return SOUND_IDS[getSpriteIndex(type) % SOUND_IDS.length];
+    }
+
+    public Type getType() {
+        return type;
     }
 }

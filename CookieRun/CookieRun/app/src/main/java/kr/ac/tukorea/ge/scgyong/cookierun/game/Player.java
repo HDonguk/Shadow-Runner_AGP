@@ -38,6 +38,12 @@ public class Player extends SheetSprite implements IBoxCollidable {
     private static final float NORMAL_COOKIE_DST_SIZE = 386;
 
     private int imageSize = 0;
+    // Shadow Runner Default stat
+    private static final int MAX_HEALTH = 3;
+    private int health = MAX_HEALTH;
+
+    private float invincibleTime = 0f;
+
     public static class CookieInfo {
         public int id;
         public String name;
@@ -148,6 +154,11 @@ public class Player extends SheetSprite implements IBoxCollidable {
 
     @Override
     public void update() {
+        // 무적 시간 감소 처리
+        if (invincibleTime > 0) {
+            invincibleTime -= GameView.frameTime;
+            if (invincibleTime < 0) invincibleTime = 0;
+        }
         float foot = collisionRect.bottom;
         switch (state) {
         case jump:
@@ -196,6 +207,32 @@ public class Player extends SheetSprite implements IBoxCollidable {
             setCookiePosition(foot);
         }
     }
+    // ⭐ 체력 증가 메서드
+    public void increaseHealth() {
+        if (health < MAX_HEALTH) {
+            health++;
+            // TODO: HUD에서 체력 UI 업데이트 필요
+        }
+    }
+
+    // ⭐ 무적 상태 부여 메서드
+    public void setInvincible(float duration) {
+        invincibleTime = duration;
+    }
+
+    public boolean isInvincible() {
+        return invincibleTime > 0;
+    }
+
+    // ⭐ 수리검 발사 메서드
+    public void fireShurikens() {
+        Scene scene = Scene.top();
+        for (int i = 0; i < 3; i++) {
+            float offsetX = i * 50f;
+            scene.add(MainScene.Layer.item, new Shuriken(x + offsetX, y)); // Shuriken 클래스 필요
+        }
+    }
+
     private float findNearestFloorTop(float foot) {
         // 플레이어 발의 y 좌표에서 아래쪽으로 가장 가까운 floor 의 좌표를 찾는다.
         Floor platform = findNearestFloor(foot);
@@ -301,6 +338,8 @@ public class Player extends SheetSprite implements IBoxCollidable {
     }
     public void hurt(Obstacle obstacle) {
         if (state == State.hurt) return;
+        if (isInvincible()) return; // ⭐ 추가됨: 무적일 때는 무시
+
         Sound.playEffect(R.raw.hurt);
         setState(State.hurt);
         this.obstacle = obstacle;
