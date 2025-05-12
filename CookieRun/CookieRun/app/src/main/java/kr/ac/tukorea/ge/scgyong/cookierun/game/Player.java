@@ -226,12 +226,16 @@ public class Player extends SheetSprite implements IBoxCollidable {
 
     // ⭐ 수리검 발사 메서드
     public void fireShurikens() {
-        Scene scene = Scene.top();
-        for (int i = 0; i < 3; i++) {
-            float offsetX = i * 50f;
-            scene.add(MainScene.Layer.item, new Shuriken(x + offsetX, y)); // Shuriken 클래스 필요
+        MainScene scene = (MainScene) Scene.top();
+        float startX = x + 50;
+        float gapY = 30f;
+
+        for (int i = -1; i <= 1; i++) {
+            float offsetY = i * gapY;
+            scene.add(MainScene.Layer.item, Shuriken.get(startX, y + offsetY));
         }
     }
+
 
     private float findNearestFloorTop(float foot) {
         // 플레이어 발의 y 좌표에서 아래쪽으로 가장 가까운 floor 의 좌표를 찾는다.

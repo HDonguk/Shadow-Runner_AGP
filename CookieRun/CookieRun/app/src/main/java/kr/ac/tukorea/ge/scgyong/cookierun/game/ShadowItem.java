@@ -8,64 +8,57 @@ import kr.ac.tukorea.ge.spgp2025.a2dg.framework.res.BitmapPool;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.scene.Scene;
 
 public class ShadowItem extends MapObject {
-    public enum Type { HEALTH, INVINCIBLE, SHURIKEN }
-
     private static final int SIZE = 66;
     private static final int BORDER = 2;
+    private static final int ITEMS_IN_ROW = 30;
     private static final int ITEM_WIDTH = 100;
     private static final int ITEM_HEIGHT = 100;
 
-    private static final int[] SOUND_IDS = {
-            R.raw.jelly,
-            R.raw.jelly_alphabet,
-            R.raw.jelly_item,
-            R.raw.jelly_gold,
-            R.raw.jelly_coin,
-            R.raw.jelly_big_coin,
-    };
-
-    private Type type;
+    public int index;
     private final Rect srcRect = new Rect();
     private final RectF collisionRect = new RectF();
 
+    private static final int[] SOUND_IDS = {
+            R.raw.jelly,
+            R.raw.jelly_item,
+            R.raw.jelly_coin,
+    };
+
     public ShadowItem() {
         super(MainScene.Layer.item);
-        bitmap = BitmapPool.get(R.mipmap.jelly); // 기존 jelly 시트 사용
+        bitmap = BitmapPool.get(R.mipmap.jelly);
         width = ITEM_WIDTH;
         height = ITEM_HEIGHT;
     }
 
-    public static ShadowItem get(Type type, float left, float top) {
-        return Scene.top().getRecyclable(ShadowItem.class).init(type, left, top);
+    public static ShadowItem get(int index, float left, float top) {
+        return Scene.top().getRecyclable(ShadowItem.class).init(index, left, top);
     }
 
-    public ShadowItem init(Type type, float left, float top) {
-        this.type = type;
+    public static ShadowItem get(char tile, float left, float top) {
+        int index;
+        switch (tile) {
+            case '1': index = 1; break; // HEALTH
+            case '2': index = 2; break; // INVINCIBLE
+            case '3': index = 3; break; // SHURIKEN
+            default: return null;
+        }
+        return get(index, left, top);
+    }
 
-        int index = getSpriteIndex(type);
+    public ShadowItem init(int index, float left, float top) {
+        this.index = index;
         setSrcRect(index);
-
         dstRect.set(left, top, left + width, top + height);
         updateCollisionRect(0.15f);
         return this;
     }
 
-    private int getSpriteIndex(Type type) {
-        switch (type) {
-            case HEALTH: return 1;
-            case INVINCIBLE: return 2;
-            case SHURIKEN: return 3;
-        }
-        return 0;
-    }
-
     private void setSrcRect(int index) {
-        int itemsPerRow = 30;
-        int x = index % itemsPerRow;
-        int y = index / itemsPerRow;
-
-        int left = x * (SIZE + BORDER) + BORDER;
-        int top = y * (SIZE + BORDER) + BORDER;
+        int col = index % ITEMS_IN_ROW;
+        int row = index / ITEMS_IN_ROW;
+        int left = col * (SIZE + BORDER) + BORDER;
+        int top = row * (SIZE + BORDER) + BORDER;
         srcRect.set(left, top, left + SIZE, top + SIZE);
     }
 
@@ -85,25 +78,25 @@ public class ShadowItem extends MapObject {
         return collisionRect;
     }
 
+    public int getSoundResId() {
+        return SOUND_IDS[index % SOUND_IDS.length];
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
     public void applyEffect(Player player) {
-        switch (type) {
-            case HEALTH:
+        switch (index) {
+            case 1:
                 player.increaseHealth();
                 break;
-            case INVINCIBLE:
+            case 2:
                 player.setInvincible(3.0f);
                 break;
-            case SHURIKEN:
+            case 3:
                 player.fireShurikens();
                 break;
         }
-    }
-
-    public int getSoundResId() {
-        return SOUND_IDS[getSpriteIndex(type) % SOUND_IDS.length];
-    }
-
-    public Type getType() {
-        return type;
     }
 }

@@ -3,7 +3,6 @@ package kr.ac.tukorea.ge.scgyong.cookierun.game;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
-import android.util.JsonReader;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -78,7 +77,7 @@ public class MapLoader implements IGameObject {
         MapObject get(char tile, float left, float top);
     }
     protected static MapObjectCreator[] mapCreators = {
-            JellyItem::get, Floor::get, ObstacleFactory::get,
+            ShadowItem::get, Floor::get, ObstacleFactory::get,
     };
     private void createObject(char tile, float left, float top) {
         for (MapObjectCreator creator: mapCreators) {
