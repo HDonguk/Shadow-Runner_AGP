@@ -63,25 +63,28 @@ Android Game Programming Project
 
 ## 4. 개발 일정 (8주 상세 일정)
 
-- **1주차 (4월 8일 시작):**  
+- **1주차 (4월 8일 시작):**  80%완료 
   - 프로젝트 초기 설정 및 Git Repository 생성  
   - 메인 메뉴 UI 구성
-- **2주차:**  
-  - 기본 캐릭터 컨트롤 (터치/스와이프 이벤트) 및 애니메이션 구현
-- **3주차:**  
+- **2주차:**     90%완료
+  - 기본 캐릭터 컨트롤 (터치/스와이프 이벤트) 및 애니메이션 구현  9
+- **3주차:**     40%완료
   - 레벨별 배경 스크롤 및 장애물 생성 알고리즘 구현 (Custom View 활용)
-- **4주차:**  
+- **4주차:**     0%완료
   - 충돌 감지 로직 및 콤보, 점수 시스템 구현
-- **5주차:**  
+- **5주차:**    50%완료
   - 파워업 아이템 및 추가 장애물 구현, 게임 난이도 조절
-- **6주차:**  
+- **6주차:**    20%완료
   - UI 개선 및 애니메이션 효과 최적화, 사운드 효과 통합
-- **7주차:**  
+- **7주차:**    0%
   - 전체 게임 테스트, 디버깅 및 밸런스 조정
-- **8주차:**  
+- **8주차:**    0%
   - 최종 디버깅, 성능 최적화 및 발표 영상 제작 (정확히 1분 30초)
+  - 
+![image](https://github.com/user-attachments/assets/079f2164-fdb4-472f-b8ed-bdbb6e5c4bfb)
 
 ![image](https://github.com/user-attachments/assets/8acb2b93-3d6c-4eb2-a77b-8bff688bee15)
+
 ---
 
 ## 5. MainScene 주요 GameObject 상세 설명
@@ -91,17 +94,14 @@ Android Game Programming Project
 기능 요약:
 
 레벨에 따라 맵 요소(장애물, 아이템, 바닥 등)를 자동으로 배치
-Stage 번호를 기반으로 .tmj 맵 파일 또는 프로그램적으로 생성된 MapGenerator 결과를 불러옴
+Stage 번호를 기반(시드)로 .tmj 맵 파일 또는 프로그램적으로 생성된 MapGenerator 결과를 불러옴
 
 구성 정보:
-
 MapLoader는 TMJ 포맷 파일을 로드
 MapGenerator는 내부 알고리즘에 따라 동적으로 장애물/아이템 위치를 배치 (5스테이지 이상 적용됨)
 
-상호작용 정보:
+![image](https://github.com/user-attachments/assets/1cf51798-2a2e-4326-900c-b713e9b1b900)
 
-생성된 장애물 및 아이템은 CollisionChecker를 통해 Player와 충돌을 감지
-충돌된 객체는 삭제되거나 효과 적용됨 (예: 점수 증가, 파워업)
 
 
 2. Touch Motion Buttons (점프/슬라이드/낙하 입력)
@@ -118,6 +118,7 @@ Button 객체를 사용해 터치 감지를 구현 (onTouch 리스너 활용)
 사용자 터치에 따라 Player.jump(), Player.slide(), Player.fall() 메서드가 실행됨
 
 핵심 코드 예시:
+![image](https://github.com/user-attachments/assets/0a193ee0-fbe9-49c9-8744-960a82e9a0c5)
 
 
 3. Shadow Item (소모 아이템)
@@ -133,6 +134,11 @@ Player 클래스에 magnify(boolean enlarges) 메서드가 존재
 상호작용 정보:
 충돌 후, Item.applyEffect() → player.magnify(true) 호출로 효과 발동
 
+핵심 코드 예시:
+![image](https://github.com/user-attachments/assets/0b4d1be8-defc-4962-a418-4b6cad265936)
+![image](https://github.com/user-attachments/assets/1fdbbd96-5d19-452b-bad1-794652477ad9)
+
+
 
 4. Player 
 
@@ -146,9 +152,8 @@ jump(), slide(), fall() 동작은 Touch 버튼과 연결됨
 applyItemEffect()로 아이템 효과 반영됨
 
 핵심 코드 예시:
-if (collidedItem.getType() == Item.Type.shadow) {
-    magnify(true);
-}
+![image](https://github.com/user-attachments/assets/9ca2bc06-ba47-44af-a32d-c0ec989b1f0c)
+
 단일 객체지만 가장 많은 상호작용과 상태 변화를 담당하는 중심 클래스입니다
 
 5.  Obstacle (장애물 오브젝트)
