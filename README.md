@@ -1,4 +1,4 @@
-# Shadow-Runner_AGP
+![image](https://github.com/user-attachments/assets/8acb2b93-3d6c-4eb2-a77b-8bff688bee15)# Shadow-Runner_AGP
 Android Game Programming Project
 
 - **프로젝트 제목:** [Shadow Runner] 
@@ -83,6 +83,100 @@ Android Game Programming Project
 
 ---
 
+## 5. MainScene 주요 GameObject 상세 설명
+
+1.  MapLoader / MapGenerator (자동 맵 구성 요소)
+
+기능 요약:
+
+레벨에 따라 맵 요소(장애물, 아이템, 바닥 등)를 자동으로 배치
+Stage 번호를 기반으로 .tmj 맵 파일 또는 프로그램적으로 생성된 MapGenerator 결과를 불러옴
+
+구성 정보:
+
+MapLoader는 TMJ 포맷 파일을 로드
+MapGenerator는 내부 알고리즘에 따라 동적으로 장애물/아이템 위치를 배치 (5스테이지 이상 적용됨)
+
+상호작용 정보:
+
+생성된 장애물 및 아이템은 CollisionChecker를 통해 Player와 충돌을 감지
+충돌된 객체는 삭제되거나 효과 적용됨 (예: 점수 증가, 파워업)
+
+
+2. Touch Motion Buttons (점프/슬라이드/낙하 입력)
+
+기능 요약:
+화면의 UI 및 스와이프를 통해 Player의 점프, 슬라이드, 낙하, 공격 동작을 직접 제어
+
+구성 정보:
+Button 객체를 사용해 터치 감지를 구현 (onTouch 리스너 활용)
+
+버튼 3종류: Jump, Slide, Fall
+
+상호작용 정보:
+사용자 터치에 따라 Player.jump(), Player.slide(), Player.fall() 메서드가 실행됨
+
+핵심 코드 예시:
+
+
+3. Shadow Item (소모 아이템)
+클래스 위치: Player.java 내부, Item.java 내부 applyEffect()
+
+기능 요약:
+특정 아이템(Item.Type.shadow) 획득 시, 수리검 공격을 통한 장애물 제거 가능 
+
+구성 정보:
+Player 클래스에 magnify(boolean enlarges) 메서드가 존재
+확대 여부는 scale 값과 magSpeed로 점진적으로 조절됨
+
+상호작용 정보:
+충돌 후, Item.applyEffect() → player.magnify(true) 호출로 효과 발동
+
+
+4. Player 
+
+기능 요약:
+스크롤되는 배경에서 자동으로 달리며, 사용자 조작(점프/슬라이드/공격)에 반응함
+콤보 시스템, 충돌 판정, 생명/체력/확대 효과 등 주요 기능의 중심
+
+상호작용 정보:
+CollisionChecker로 Obstacle 또는 Item과 충돌 감지
+jump(), slide(), fall() 동작은 Touch 버튼과 연결됨
+applyItemEffect()로 아이템 효과 반영됨
+
+핵심 코드 예시:
+if (collidedItem.getType() == Item.Type.shadow) {
+    magnify(true);
+}
+단일 객체지만 가장 많은 상호작용과 상태 변화를 담당하는 중심 클래스입니다
+
+5.  Obstacle (장애물 오브젝트)
+
+기능 요약:
+MapLoader나 MapGenerator에 의해 배치되며, 플레이어가 피해야 하는 대상
+충돌 시 체력 감소 또는 즉시 게임 오버 처리
+
+상호작용 정보:
+Player와의 충돌을 감지하여 CollisionChecker가 생명 감소 처리
+종류별로 충돌 효과가 다를 수 있음 (즉사 vs 점수 감소 등)
+
+핵심 코드 예시:
+if (player.collidesWith(obstacle)) {
+    player.decreaseHp();  // 또는 gameOver()
+}
+
+6. CollisionChecker (충돌 판정 전담 컨트롤러)
+
+기능 요약:
+update()마다 모든 충돌을 판별하고 후속 처리 (아이템 효과, 데미지 등)를 트리거함
+
+상호작용 정보:
+Player, Obstacle, Item의 충돌을 각각 구분하여 처리
+
+핵심 코드 예시:
+if (player.collidesWith(item)) {
+    item.applyEffect(player);
+}
 
 
 ### 요약
