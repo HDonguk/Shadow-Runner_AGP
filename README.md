@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/8acb2b93-3d6c-4eb2-a77b-8bff688bee15)# Shadow-Runner_AGP
+# Shadow-Runner_AGP
 Android Game Programming Project
 
 - **프로젝트 제목:** [Shadow Runner] 
@@ -81,6 +81,7 @@ Android Game Programming Project
 - **8주차:**  
   - 최종 디버깅, 성능 최적화 및 발표 영상 제작 (정확히 1분 30초)
 
+![image](https://github.com/user-attachments/assets/8acb2b93-3d6c-4eb2-a77b-8bff688bee15)
 ---
 
 ## 5. MainScene 주요 GameObject 상세 설명
