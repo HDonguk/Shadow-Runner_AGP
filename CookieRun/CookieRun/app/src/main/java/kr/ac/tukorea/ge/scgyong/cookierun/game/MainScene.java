@@ -32,10 +32,14 @@ public class MainScene extends Scene {
 
         // 기존 버튼 제거 (슬라이드, 점프, 낙하, 일시정지 버튼 등)
 
-        add(Layer.controller, new MapLoader(this, stage));
+        if(stage == 5){
+            add(Layer.controller, new MapGenerator(this, stage));
+        }
+        else{
+            add(Layer.controller, new MapLoader(this, stage));
+        }
         add(Layer.controller, new CollisionChecker(this, player));
     }
-
     private void pauseAnimations() {
         for (IGameObject obj : objectsAt(Layer.obstacle)) {
             ((MapObject)obj).pause();

@@ -214,16 +214,13 @@ public class Player extends SheetSprite implements IBoxCollidable {
             // TODO: HUD에서 체력 UI 업데이트 필요
         }
     }
-
     // ⭐ 무적 상태 부여 메서드
     public void setInvincible(float duration) {
         invincibleTime = duration;
     }
-
     public boolean isInvincible() {
         return invincibleTime > 0;
     }
-
     // ⭐ 수리검 발사 메서드
     public void fireShurikens() {
         MainScene scene = (MainScene) Scene.top();

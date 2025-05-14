@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         String text = getString(R.string.title_stage_fmt, stage);
         ui.stageTextView.setText(text);
         ui.prevButton.setEnabled(stage > 1);
-        ui.nextButton.setEnabled(stage < 3);
+        ui.nextButton.setEnabled(stage < 5);
     }
     private void setCookieIndex(int index) {
         this.cookieIndex = index;
