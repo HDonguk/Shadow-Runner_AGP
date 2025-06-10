@@ -1,5 +1,6 @@
 package kr.ac.tukorea.ge.scgyong.cookierun.game;
 
+import android.graphics.Canvas;
 import android.view.MotionEvent;
 
 import kr.ac.tukorea.ge.scgyong.cookierun.R;
@@ -7,6 +8,7 @@ import kr.ac.tukorea.ge.spgp2025.a2dg.framework.interfaces.IGameObject;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.objects.HorzScrollBackground;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.res.Sound;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.scene.Scene;
+import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.Metrics;
 
 public class MainScene extends Scene {
     public enum Layer {
@@ -20,6 +22,8 @@ public class MainScene extends Scene {
     // 스와이프 감지를 위한 좌표
     private float touchStartX, touchStartY;
     private boolean isSliding = false;
+    private MapLoader mapLoader;
+
     public MainScene(int stage, int cookieId) {
         initLayers(Layer.COUNT);
 
@@ -32,14 +36,23 @@ public class MainScene extends Scene {
 
         // 기존 버튼 제거 (슬라이드, 점프, 낙하, 일시정지 버튼 등)
 
-        if(stage == 5){
-            add(Layer.controller, new MapGenerator(this, stage));
-        }
-        else{
-            add(Layer.controller, new MapLoader(this, stage));
-        }
+        // 맵 로더 생성 (MapGenerator는 MapLoader 내부에서 생성됨)
+        mapLoader = new MapLoader(this, stage);
+        
+        add(Layer.controller, mapLoader);
         add(Layer.controller, new CollisionChecker(this, player));
     }
+
+    @Override
+    public void update() {
+        super.update();
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+    }
+
     private void pauseAnimations() {
         for (IGameObject obj : objectsAt(Layer.obstacle)) {
             ((MapObject)obj).pause();

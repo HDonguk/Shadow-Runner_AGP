@@ -5,6 +5,7 @@ import android.util.Log;
 
 import kr.ac.tukorea.ge.scgyong.cookierun.BuildConfig;
 import kr.ac.tukorea.ge.scgyong.cookierun.game.MainScene;
+import kr.ac.tukorea.ge.scgyong.cookierun.game.MapGenerator;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.activity.GameActivity;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.scene.Scene;
 import kr.ac.tukorea.ge.spgp2025.a2dg.framework.view.GameView;
