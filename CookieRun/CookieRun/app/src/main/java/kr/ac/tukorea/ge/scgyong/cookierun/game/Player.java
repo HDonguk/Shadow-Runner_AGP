@@ -56,14 +56,25 @@ public class Player extends SheetSprite implements IBoxCollidable {
 
     protected Rect[][] srcRectsArray;
     private void makeSourceRects() {
-        srcRectsArray = new Rect[][] {
-                makeRects(100, 101, 102, 103), // State.running
-                makeRects(7, 8),               // State.jump
-                makeRects(1, 2, 3, 4),         // State.doubleJump
-                makeRects(0),                  // State.falling
-                makeRects(9, 10),              // State.slide
-                makeRects(503, 504),           // State.hurt
-        };
+        // 각 State별 프레임 개수 (필요시 조정)
+        int[] frameCounts = { 10, 10, 10, 10, 10, 10 };
+        int columns = 10; // 한 행에 10프레임
+        int frameWidth = 31;
+        int frameHeight = 900;
+        int padding = 2;
+        srcRectsArray = new Rect[State.values().length][];
+        for (int stateIdx = 0; stateIdx < State.values().length; stateIdx++) {
+            int frameCount = frameCounts[stateIdx];
+            Rect[] rects = new Rect[frameCount];
+            for (int i = 0; i < frameCount; i++) {
+                int row = stateIdx;
+                int col = i;
+                int left = col * (frameWidth + padding);
+                int top = row * (frameHeight + padding);
+                rects[i] = new Rect(left, top, left + frameWidth, top + frameHeight);
+            }
+            srcRectsArray[stateIdx] = rects;
+        }
     }
     protected static float[][] edgeInsetRatios = {
             { 0.3f, 0.5f, 0.3f, 0.0f }, // State.running

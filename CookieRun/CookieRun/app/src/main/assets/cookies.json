@@ -28,5 +28,11 @@
     "name": "!!Ch17!! Cookie",
     "jumpPower": 1500,
     "scoreRate": 1.0
+  },
+  {
+    "id": 107584,
+    "name": "Necromancer",
+    "jumpPower": 1000,
+    "scoreRate": 1.5
   }
 ]
